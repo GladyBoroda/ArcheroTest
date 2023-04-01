@@ -14,6 +14,7 @@ public class PlayerMove : MonoBehaviour
     public float MoveSpeed = 1;
 
     private Vector3 _direction;
+    public GameObject Target;
 
     private void FixedUpdate()
     {
@@ -26,5 +27,10 @@ public class PlayerMove : MonoBehaviour
         {
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(_direction), RotationLerpSpeed);
         }
+        else if (Target)
+        {
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Target.transform.position - transform.position), RotationLerpSpeed);
+        }
+
     }
 }
