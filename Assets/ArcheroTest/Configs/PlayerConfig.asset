@@ -14,4 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MoveSpeed: 8
   RotateLerpSpeed: 10.2
-  AttackSpeed: 2
+  PeriodAttack: 1
+  AttackSpeed: 35
+  Damage: 1

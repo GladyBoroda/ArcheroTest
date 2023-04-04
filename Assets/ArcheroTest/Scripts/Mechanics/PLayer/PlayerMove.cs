@@ -5,15 +5,34 @@ public class PlayerMove : MonoBehaviour
 {
     public Rigidbody Rigidbody;
     public Joystick Joystick;
-    public GameObject Target;
+    public EnemiesDetector EnemiesDetector;
     public bool Stay;
+    public int PlayerHealth = 5;
+    public PlayerConfig _playerConfig;
 
+    private Enemy Enemy;
     private Vector3 _direction;
-    [SerializeField]private PlayerConfig _playerConfig;
+    [SerializeField] private EnemyConfig _enemyConfig;
 
+    public void OnHit()
+    {
+        PlayerHealth -= _enemyConfig.Damage;
+
+        if (PlayerHealth <= 0)
+        {
+            Die();
+        }
+    }
+
+    public void Die()
+    {
+        Debug.Log("You Die!");
+    }
 
     private void FixedUpdate()
     {
+        EnemiesDetector.CheckEnemyOnLevel(out Enemy);
+
         Vector3 InputVector = new Vector3(Joystick.xAxis.value, 0, Joystick.yAxis.value);
         InputVector *= _playerConfig.MoveSpeed;
         Rigidbody.velocity = InputVector;
@@ -24,10 +43,10 @@ public class PlayerMove : MonoBehaviour
             Stay = false;
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(_direction), _playerConfig.RotateLerpSpeed * Time.deltaTime);
         }
-        else if (Target)
+        else if (Enemy)
         {
             Stay = true;
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Target.transform.position - transform.position), _playerConfig.RotateLerpSpeed * Time.deltaTime);
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Enemy.transform.position - transform.position), _playerConfig.RotateLerpSpeed * Time.deltaTime);
         }
 
     }

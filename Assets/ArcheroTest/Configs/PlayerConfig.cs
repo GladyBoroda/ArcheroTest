@@ -9,7 +9,8 @@ public class PlayerConfig : ScriptableObject
 
     [Range(0f, 15f)]
     public float RotateLerpSpeed;
-
+    public float PeriodAttack;
     public float AttackSpeed;
+    public int Damage;
 
 }
